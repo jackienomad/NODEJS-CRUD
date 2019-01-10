@@ -46,16 +46,31 @@ function savePlayer(req, res, next) {
     }
 }
 
-// function updatePlayer(req, res, next) {
-//     try {
-//         let que = 'UPDATE players SET '
+function updatePlayer(req, res, next) {
+    try {
+        const id = req.id
+        const firstname = req.firstname
+        const lastname = req.lastname
+        const username = req.username
+        const email = req.email
 
-//         db.connect((err) => {
+        let que = `UPDATE players SET firstname = ?, lastname = ?, username = ?, email = ? WHERE id = ?`
+        let queVal = [firstname, lastname, username, email, id]
 
-//         })
-//     } catch (error) {
-        
-//     }
-// }
+        return new Promise((resolve, rejects) => {
+            db.connect((err) => {
+                db.query(que, queVal, (err, results, field) => {
+                    if (err) {
+                        throw err
+                    }
+                    resolve(results)
+                })
+            })
+        })
 
-export default { findAllPlayers, savePlayer }
+    } catch (error) {
+        next()
+    }
+}
+
+export default { findAllPlayers, savePlayer, updatePlayer }
