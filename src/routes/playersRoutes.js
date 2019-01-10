@@ -1,5 +1,4 @@
 import express from 'express'
-import connection from '../../src/config/connection'
 export const router = express.Router()
 import players from '../controllers/playersController'
 
@@ -17,6 +16,15 @@ router.post('/savePlayer', (req, res) => {
     res.json({
         "status" : 200,
         "success" : true
+    })
+})
+
+router.put('/updatePlayer', async (req, res) => {
+    const result = await players.updatePlayer(req.body)
+    res.json({ 
+        "status": 200,
+        "success": true,
+        "affectedRows": result.affectedRows
     })
 })
 
