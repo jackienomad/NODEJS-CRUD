@@ -1,0 +1,40 @@
+{
+  "name": "node-spa",
+  "version": "1.0.0",
+  "description": "single page application",
+  "main": "index.js",
+  "scripts": {
+    "dev": "NODE_ENV=development NODE_CONFIG_DIR=./src/config nodemon --watch src --exec 'node -r dotenv/config -r module-alias/register -r esm src/index.js'"
+  },
+  "author": "jerac dialino",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
+    "esm": "^3.0.84",
+    "express": "^4.16.4",
+    "module-alias": "^2.1.0",
+    "mysql": "^2.16.0"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "eslint": "^5.12.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jest": "^21.22.1",
+    "eslint-plugin-prettier": "^3.0.0",
+    "faker": "^4.1.0",
+    "husky": "^1.1.2",
+    "jest": "^23.6.0",
+    "jest-stare": "^1.9.1",
+    "nodemon": "latest",
+    "prettier": "^1.14.3"
+  },
+  "engines": {
+    "node": ">=8.11.0"
+  },
+  "_moduleAliases": {
+    "~": "./src"
+  }
+}
