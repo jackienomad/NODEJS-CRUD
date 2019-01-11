@@ -1,76 +1,65 @@
-import dbConfig from '../config/connection'
-import mysql from 'mysql'
-import query from '../config/mysql/players'
+import PlayersModel from '../models/playersModel'
 
-const db = mysql.createConnection(dbConfig)
-
-function findAllPlayers() {
-    
-    try { 
-        return new Promise((resolve, rejects) => {
-            db.connect((err) => {
-                let que = 'SELECT * FROM players'
-                db.query(que, (err, results, fields) => {
-                    if (err) {
-                        return rejects(err)
-                    }
-                    resolve(results)
-                })
+export class PlayersController {
+    static async findAll(req, res, next) {
+        try {
+            const data = await PlayersModel.findAll()
+            return res.status(200).send({
+                success: true,
+                data
             })
-        })
-    } catch (error) {
-        throw error
+        } catch (error) {
+            next()
+        }
     }
-}
 
-function savePlayer(req, res, next) {
-    try {
-        const firstname = req.firstname
-        const lastname = req.lastname
-        const username = req.username
-        const email = req.email
-
-        let que = `INSERT INTO players(firstname, lastname, username, email)
-                VALUES(?,?,?,?)`
-        let queVal = [firstname, lastname, username, email]        
-        
-        db.connect((err) => {
-            db.query(que, queVal)
-            if (err) {
-                throw err
-            }
-        })
-        
-    } catch (error) {
-        
-    }
-}
-
-function updatePlayer(req, res, next) {
-    try {
-        const id = req.id
-        const firstname = req.firstname
-        const lastname = req.lastname
-        const username = req.username
-        const email = req.email
-
-        let que = `UPDATE players SET firstname = ?, lastname = ?, username = ?, email = ? WHERE id = ?`
-        let queVal = [firstname, lastname, username, email, id]
-
-        return new Promise((resolve, rejects) => {
-            db.connect((err) => {
-                db.query(que, queVal, (err, results, field) => {
-                    if (err) {
-                        throw err
-                    }
-                    resolve(results)
-                })
+    static async findById(req, res, next) {
+        try {
+            const data = await PlayersModel.findById(req.params.id)
+            return res.status(200).send({
+                success: true,
+                data
             })
-        })
+        } catch (error) {
+            
+        }
+    }
 
-    } catch (error) {
-        next()
+    static save(req, res, next) {
+        try {
+            PlayersModel.save(req.body)
+            return res.status(200).send({
+                success: true,
+                "message": "Data successfully saved!" 
+            })
+        } catch (error) {
+            next()
+        }
+    }
+
+    static update(req, res, next) {
+        try {
+            PlayersModel.update(req)
+            return res.status(200).send({
+                success: true,
+                "message": "Data successfully updated!"
+            })
+        } catch (error) {
+            next()
+        }
+    }
+
+    static delete(req, res, next) {
+        try {
+            PlayersModel.delete(req.params.id)
+            return res.status(200).send({
+                success: true,
+                "message": "Data successfully deleted!"
+            })
+        } catch (error) {
+            next()
+        }
     }
 }
 
-export default { findAllPlayers, savePlayer, updatePlayer }
+export default PlayersController

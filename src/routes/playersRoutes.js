@@ -2,30 +2,29 @@ import express from 'express'
 export const router = express.Router()
 import players from '../controllers/playersController'
 
-router.get('/', (req, res) => {
-    res.json({ message: 'homepage routes' })
-})
+router.get(
+    '/players/findAll',
+    players.findAll
+)
 
-router.get('/findAllPlayers', async (req, res) => {
-    const result = await players.findAllPlayers()
-    res.json(result)
-})
+router.get(
+    '/players/findById/:id',
+    players.findById
+)
 
-router.post('/savePlayer', (req, res) => {
-    players.savePlayer(req.body)
-    res.json({
-        "status" : 200,
-        "success" : true
-    })
-})
+router.post(
+    '/players/save',
+    players.save
+)
 
-router.put('/updatePlayer', async (req, res) => {
-    const result = await players.updatePlayer(req.body)
-    res.json({ 
-        "status": 200,
-        "success": true,
-        "affectedRows": result.affectedRows
-    })
-})
+router.put(
+    '/players/update/:id',
+    players.update
+)
+
+router.delete(
+    '/players/delete/:id',
+    players.delete
+)
 
 module.exports = router
